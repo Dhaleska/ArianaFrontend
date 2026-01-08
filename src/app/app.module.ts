@@ -26,10 +26,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
+import { CommonModule } from '@angular/common';
+import { DashboardHomeComponent } from './modules/dashboard-home/dashboard-home.component';
+import { ResourcesHomeComponent } from './modules/resources-home/resources-home.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardHomeComponent,
+    ResourcesHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +55,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatCardModule,
     HttpClientModule,
     MatOption,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -1,0 +1,53 @@
+<!-- src/app/modules/resources-home/resources-home.component.html -->
+<div class="principal-body">
+
+  <header class="principal-header">
+    <div class="title">
+      MULTISERVICIOS "ARIANA"
+    </div>
+
+    <div class="user-info">
+      <span class="username">{{ username }}</span>
+      <div class="user-icon">
+        <i class="fa-solid fa-user"></i>
+      </div>
+    </div>
+  </header>
+
+  <main class="principal-main" *ngIf="loading">
+    <div class="loading-container">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <span>Cargando recursos...</span>
+    </div>
+  </main>
+
+  <main class="principal-main" *ngIf="error && !loading">
+    <div class="error-container">
+      <i class="fa-solid fa-exclamation-triangle"></i>
+      <span>{{ error }}</span>
+    </div>
+  </main>
+
+
+  <main class="principal-main" *ngIf="!loading && !error">
+    <div class="menu-grid">
+      <a 
+        *ngFor="let recurso of recursos" 
+        class="menu-btn"
+        (click)="navegarA(recurso.ruta)">
+        <i [class]="recurso.icono"></i>
+        <span>{{ recurso.nombreDisplay }}</span>
+      </a>
+    </div>
+
+    <div *ngIf="recursos.length === 0" class="no-resources">
+      <i class="fa-solid fa-lock"></i>
+      <span>No tienes recursos asignados. Contacta al administrador.</span>
+    </div>
+  </main>
+
+  <footer class="principal-footer">
+    <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+  </footer>
+
+</div>

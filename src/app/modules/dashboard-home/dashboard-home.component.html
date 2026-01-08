@@ -1,0 +1,26 @@
+<!-- src/app/modules/dashboard-home/dashboard-home.component.html -->
+<div class="dashboard-container">
+  <h1>Bienvenido, {{ userInfo?.username }}!</h1>
+  
+  <div class="info-cards">
+    <div class="card">
+      <h3>Usuario</h3>
+      <p>ID: {{ userInfo?.usuarioId }}</p>
+      <p>Username: {{ userInfo?.username }}</p>
+    </div>
+    
+    <div class="card">
+      <h3>Roles</h3>
+      <ul>
+        <li *ngFor="let rol of userInfo?.roles">{{ rol }}</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Permisos</h3>
+      <ul>
+        <li *ngFor="let permiso of userInfo?.permisos">{{ permiso }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

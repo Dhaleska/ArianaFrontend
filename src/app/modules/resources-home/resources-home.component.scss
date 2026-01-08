@@ -1,0 +1,192 @@
+// src/app/modules/resources-home/resources-home.component.scss
+
+/* ===== PRINCIPAL ===== */
+.principal-body {
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              url("/assets/fondo-principal.png") no-repeat center center/cover;
+  color: white;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.principal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 30px 20px;
+}
+
+.principal-header .title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.username {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.user-icon {
+  background: white;
+  color: black;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* Main */
+.principal-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+}
+
+/* Grid de botones */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 140px);
+  gap: 25px;
+}
+
+/* Botones del menú */
+.menu-btn {
+  height: 110px;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s, background 0.2s;
+  text-decoration: none;
+
+  i {
+    font-size: 28px;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-5px);
+  }
+}
+
+/* Footer */
+.principal-footer {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+}
+
+/* Botón cerrar sesión */
+.logout-btn {
+  background: #f1c40f;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1e293b;
+  font-size: 14px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #d4ac0d;
+  }
+}
+
+/* Loading y Error */
+.loading-container,
+.error-container,
+.no-resources {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: rgba(255, 255, 255, 0.8);
+
+  i {
+    font-size: 40px;
+  }
+
+  span {
+    font-size: 16px;
+  }
+}
+
+.error-container {
+  color: #ef4444;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 140px);
+  }
+
+  .principal-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .user-info {
+    position: static;
+    transform: none;
+  }
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+  .menu-grid {
+    grid-template-columns: repeat(1, 160px);
+  }
+
+  .principal-header .title {
+    font-size: 20px;
+  }
+
+  .logout-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .principal-footer {
+    position: static;
+    padding: 20px;
+    text-align: center;
+  }
+}

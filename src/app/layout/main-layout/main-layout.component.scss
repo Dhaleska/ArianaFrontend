@@ -1,91 +1,99 @@
-.main-container {
-  height: 100vh;
-  margin: 0;
-  position: relative;
-}
+// src/app/layout/main-layout/main-layout.component.scss
 
-mat-sidenav {
-  width: 260px;
-  background-color: #7B1C1C;
-  padding: 0;
-  margin: 0;
-  border: none;
-  height: 100vh;
-  overflow-y: auto;
-  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.1);
-  
-  // Scrollbar personalizado
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-    
-    &:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-  }
-}
-
-mat-sidenav-content {
-  background-color: #FAFAFA;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+.layout {
   display: flex;
-  flex-direction: column;
-  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
 .content {
   flex: 1;
-  padding: 20px;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 15px 30px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.user-icon {
+  background: #111827;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.content-body {
+  flex: 1;
+  padding: 30px 40px;
   overflow-y: auto;
-  min-height: 0; // Importante para el scroll
 }
 
-// Responsive breakpoints
-@media (max-width: 1024px) {
-  mat-sidenav {
-    width: 240px;
-  }
-  
-  .content {
-    padding: 16px;
-  }
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #111827;
+  padding: 5px;
+  margin-right: auto;
 }
 
+.sidebar-overlay {
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  mat-sidenav {
-    width: 280px; // Más ancho en móvil para mejor usabilidad
+  .menu-toggle {
+    display: block;
   }
-  
-  .content {
-    padding: 12px;
-  }
-}
 
-@media (max-width: 480px) {
-  mat-sidenav {
-    width: 100vw; // Pantalla completa en móviles pequeños
+  .content-header {
+    padding: 15px 20px;
   }
-  
-  .content {
-    padding: 8px;
-  }
-}
 
-// Overlay para móviles
-@media (max-width: 768px) {
-  .main-container {
-    .mat-drawer-backdrop {
-      background-color: rgba(0, 0, 0, 0.6);
-    }
+  .content-body {
+    padding: 20px;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  :host ::ng-deep app-sidebar.show .sidebar {
+    left: 0;
   }
 }

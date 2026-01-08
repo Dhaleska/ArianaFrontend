@@ -1,16 +1,45 @@
+<!-- src/app/modules/login/login.component.html -->
 <div class="main-container">
-<div class="login-container">
+  <div class="login-container">
     <div class="login-card">
-        <h2>BIENVENIDO</h2>
+      <h2>BIENVENIDO</h2>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+        
+        <input 
+          type="text" 
+          formControlName="username"
+          placeholder="Usuario" 
+          [class.error]="username?.invalid && username?.touched"
+          required>
+        
+        <div *ngIf="username?.invalid && username?.touched" class="field-error">
+          <small *ngIf="username?.errors?.['required']">El usuario es obligatorio</small>
+        </div>
 
-        <form id="loginForm">
-            <input type="email" placeholder="correo@gmail.com" required>
-            <input type="password" placeholder="********" required>
+        <input 
+          type="password" 
+          formControlName="password"
+          placeholder="********" 
+          [class.error]="password?.invalid && password?.touched"
+          required>
+        
+        <div *ngIf="password?.invalid && password?.touched" class="field-error">
+          <small *ngIf="password?.errors?.['required']">La contraseña es obligatoria</small>
+          <small *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres</small>
+        </div>
 
-            <button type="submit">Iniciar Sesión</button>
-
-            <a href="#" class="forgot">Olvidé mi contraseña</a>
-        </form>
+        <button 
+          type="submit" 
+          [disabled]="loginForm.invalid || loading">
+          {{ loading ? 'Iniciando...' : 'Iniciar Sesión' }}
+        </button>
+        
+        <a href="#" class="forgot">Olvidé mi contraseña</a>
+      </form>
     </div>
-</div>
+  </div>
 </div>

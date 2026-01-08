@@ -1,21 +1,38 @@
-<mat-sidenav-container class="main-container">
-  <mat-sidenav 
-    #sidenav
-    [mode]="sidenavMode" 
-    [opened]="sidenavOpened"
-    [fixedInViewport]="true"
-    [fixedTopGap]="0"
-    [fixedBottomGap]="0">
-    <app-sidebar (closeSidenav)="closeSidenav()"></app-sidebar>
-  </mat-sidenav>
+<!-- src/app/layout/main-layout/main-layout.component.html -->
+<div class="layout">
 
-  <mat-sidenav-content>
-    <app-header 
-      (toggleSidenav)="toggleSidenav()"
-      [showMenuButton]="showMenuButton">
-    </app-header>
-    <main class="content">
+  <app-sidebar 
+    [class.show]="sidebarOpen"
+    (closeSidenav)="closeSidebar()">
+  </app-sidebar>
+
+  <div 
+    class="sidebar-overlay" 
+    *ngIf="sidebarOpen" 
+    (click)="closeSidebar()">
+  </div>
+
+  <main class="content">
+
+    <div class="content-header">
+      
+      <button class="menu-toggle" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="user-info">
+        <span class="username">{{ userInfo?.username }}</span>
+        <div class="user-icon">
+          <i class="fa-solid fa-user"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="content-body">
       <router-outlet></router-outlet>
-    </main>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </div>
+
+  </main>
+
+</div>

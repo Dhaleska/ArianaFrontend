@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainLayoutComponent } from './main-layout.component';
+import { CargosComponent } from './cargos.component';
 
-describe('MainLayoutComponent', () => {
-  let component: MainLayoutComponent;
-  let fixture: ComponentFixture<MainLayoutComponent>;
+describe('CargosComponent', () => {
+  let component: CargosComponent;
+  let fixture: ComponentFixture<CargosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainLayoutComponent]
+      declarations: [CargosComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(MainLayoutComponent);
+    fixture = TestBed.createComponent(CargosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

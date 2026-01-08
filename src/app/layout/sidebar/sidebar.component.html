@@ -1,1 +1,18 @@
-<p>sidebar works!</p>
+<!-- src/app/layout/sidebar/sidebar.component.html -->
+<aside class="sidebar">
+
+  <div class="logo">
+    <img src="assets/logo.png" alt="Multiservicios Ariana">
+  </div>
+
+  <nav class="menu">
+    <a *ngFor="let item of menuItems"
+       class="menu-item"
+       [class.active]="isRouteActive(item.route)"
+       (click)="onItemClick(item.route)">
+      <i [class]="item.icon"></i>
+      {{ item.label }}
+    </a>
+  </nav>
+
+</aside>

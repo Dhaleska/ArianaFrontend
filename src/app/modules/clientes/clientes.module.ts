@@ -1,19 +1,19 @@
-// src/app/modules/cargos/cargos.module.ts
+// src/app/modules/clientes/clientes.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { CargosComponent } from './cargos.component';
-import { CargoService } from '../../auth/services/cargo.service';
+import { ClientesComponent } from './clientes.component';
+import { ClienteService } from '../../auth/services/cliente.service';
 
 const routes: Routes = [
-  { path: '', component: CargosComponent }
+  { path: '', component: ClientesComponent }
 ];
 
 @NgModule({
   declarations: [
-    CargosComponent
+    ClientesComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +21,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [
-    CargoService
+    ClienteService
   ]
 })
-export class CargosModule { }
+export class ClientesModule { }

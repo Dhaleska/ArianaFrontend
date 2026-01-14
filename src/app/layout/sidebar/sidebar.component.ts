@@ -58,12 +58,12 @@ export class SidebarComponent implements OnInit {
     },
     {
       label: 'Personal',
-      route: '/dashboard/rrhh',
+      route: '/dashboard/personal',
       icon: 'fa-solid fa-user',
-      permiso: 'rrhh:read'
+      permiso: 'personal:read'
     },
     {
-      label: 'Cliente',
+      label: 'Clientes',
       route: '/dashboard/clientes',
       icon: 'fa-solid fa-users',
       permiso: 'clientes:read'

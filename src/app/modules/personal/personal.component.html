@@ -1,0 +1,220 @@
+<!-- src/app/modules/personal/personal.component.html -->
+<div class="page-container">
+
+  <!-- Título -->
+  <h2 class="page-title">REGISTRO DE PERSONAL</h2>
+
+  <!-- Contenido principal: Formulario + Tabla -->
+  <div class="content-layout">
+
+    <!-- ========== FORMULARIO (Izquierda) ========== -->
+    <div class="form-section">
+      <form [formGroup]="personalForm" (ngSubmit)="onSubmit()">
+
+        <!-- DNI -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="dni"
+            placeholder="DNI*"
+            [class.error]="dni?.invalid && dni?.touched">
+          <small class="error-text" *ngIf="dni?.invalid && dni?.touched">
+            <span *ngIf="dni?.errors?.['required']">El DNI es obligatorio</span>
+            <span *ngIf="dni?.errors?.['minlength']">Mínimo 8 caracteres</span>
+          </small>
+        </div>
+
+        <!-- Nombres -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="nombres"
+            placeholder="Nombres*"
+            [class.error]="nombres?.invalid && nombres?.touched">
+          <small class="error-text" *ngIf="nombres?.invalid && nombres?.touched">
+            <span *ngIf="nombres?.errors?.['required']">Los nombres son obligatorios</span>
+            <span *ngIf="nombres?.errors?.['minlength']">Mínimo 2 caracteres</span>
+          </small>
+        </div>
+
+        <!-- Apellido Paterno -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="apellidoPaterno"
+            placeholder="Apellido Paterno*"
+            [class.error]="apellidoPaterno?.invalid && apellidoPaterno?.touched">
+          <small class="error-text" *ngIf="apellidoPaterno?.invalid && apellidoPaterno?.touched">
+            <span *ngIf="apellidoPaterno?.errors?.['required']">El apellido es obligatorio</span>
+          </small>
+        </div>
+
+        <!-- Apellido Materno -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="apellidoMaterno"
+            placeholder="Apellido Materno">
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="telefono"
+            placeholder="Teléfono">
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input 
+            type="email" 
+            formControlName="email"
+            placeholder="Email"
+            [class.error]="email?.invalid && email?.touched">
+          <small class="error-text" *ngIf="email?.errors?.['email'] && email?.touched">
+            Email no válido
+          </small>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="direccion"
+            placeholder="Dirección">
+        </div>
+
+        <!-- Fecha Nacimiento -->
+        <div class="form-group">
+          <label class="date-label">Fecha de Nacimiento</label>
+          <input 
+            type="date" 
+            formControlName="fechaNacimiento">
+        </div>
+
+        <!-- Cargo (Select) -->
+        <div class="form-group">
+          <select 
+            formControlName="cargoId"
+            [class.error]="cargoId?.invalid && cargoId?.touched">
+            <option value="">Seleccionar Cargo*</option>
+            <option *ngFor="let cargo of cargos" [value]="cargo.cargoId">
+              {{ cargo.nombreCargo }} - S/ {{ cargo.sueldo | number:'1.2-2' }}
+            </option>
+          </select>
+          <small class="error-text" *ngIf="cargoId?.invalid && cargoId?.touched">
+            El cargo es obligatorio
+          </small>
+        </div>
+
+        <!-- NUEVO: Supervisor (Select dinámico según cargo) -->
+        <div class="form-group">
+          <select 
+            formControlName="supervisorId"
+            [disabled]="supervisoresDisponibles.length === 0">
+            <option value="">{{ supervisoresDisponibles.length === 0 ? 'Sin Supervisor disponible' : 'Seleccionar Supervisor' }}</option>
+            <option *ngFor="let sup of supervisoresDisponibles" [value]="sup.personalId">
+              {{ sup.nombres }} {{ sup.apellidoPaterno }} {{ sup.apellidoMaterno || '' }}
+            </option>
+          </select>
+          <small class="hint-text" *ngIf="supervisoresDisponibles.length > 0">
+            Selecciona el supervisor para este personal
+          </small>
+          <small class="hint-text" *ngIf="supervisoresDisponibles.length === 0 && personalForm.get('cargoId')?.value">
+            Este cargo no requiere supervisor
+          </small>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+          <button 
+            type="submit" 
+            class="btn-primary"
+            [disabled]="saving">
+            <i class="fa-solid" [ngClass]="isEditing ? 'fa-save' : 'fa-plus'"></i>
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Registrar') }}
+          </button>
+          
+          <button 
+            type="button" 
+            class="btn-secondary"
+            *ngIf="isEditing"
+            (click)="cancelEdit()">
+            <i class="fa-solid fa-times"></i>
+            Cancelar
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ========== TABLA (Derecha) ========== -->
+    <div class="table-section">
+      
+      <!-- Loading -->
+      <div class="loading-container" *ngIf="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <span>Cargando...</span>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-scroll" *ngIf="!loading">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>DNI</th>
+              <th>NOMBRE COMPLETO</th>
+              <th>CARGO</th>
+              <th>SUELDO</th>
+              <th>SUPERVISOR</th>
+              <th>TELÉFONO</th>
+              <th>ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let personal of personalList; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ personal.dni }}</td>
+              <td>{{ personal.nombreCompleto || (personal.nombres + ' ' + personal.apellidoPaterno) }}</td>
+              <td>{{ personal.nombreCargo || getCargoNombre(personal.cargoId) }}</td>
+              <td>S/ {{ personal.sueldo | number:'1.2-2' }}</td>
+              <td>
+                <span *ngIf="personal.supervisor">
+                  {{ personal.supervisor.nombreCompleto }}
+                </span>
+                <span *ngIf="!personal.supervisor" class="text-muted">-</span>
+              </td>
+              <td>{{ personal.telefono || '-' }}</td>
+              <td class="actions">
+                <button 
+                  class="btn-icon edit" 
+                  (click)="editPersonal(personal)"
+                  title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button 
+                  class="btn-icon delete" 
+                  (click)="deletePersonal(personal)"
+                  title="Eliminar">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Sin datos -->
+            <tr *ngIf="personalList.length === 0">
+              <td colspan="8" class="no-data">
+                No hay personal registrado
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

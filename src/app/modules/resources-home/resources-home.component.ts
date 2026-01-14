@@ -30,10 +30,10 @@ export class ResourcesHomeComponent implements OnInit {
       icono: 'fa-solid fa-briefcase',
       ruta: '/dashboard/cargos'
     },
-    'rrhh': {
+    'personal': {
       nombreDisplay: 'Personal',
       icono: 'fa-solid fa-user-gear',
-      ruta: '/dashboard/rrhh'
+      ruta: '/dashboard/personal'
     },
     'reportes': {
       nombreDisplay: 'Reportes',

@@ -1,1 +1,135 @@
-<p>cargos works!</p>
+<!-- src/app/modules/cargos/cargos.component.html -->
+<div class="page-container">
+
+  <!-- Título -->
+  <h2 class="page-title">REGISTRO DE CARGOS</h2>
+
+  <!-- Contenido principal: Formulario + Tabla -->
+  <div class="content-layout">
+
+    <!-- ========== FORMULARIO (Izquierda) ========== -->
+    <div class="form-section">
+      <form [formGroup]="cargoForm" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre del cargo -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="nombreCargo"
+            placeholder="Nombre del cargo*"
+            [class.error]="nombreCargo?.invalid && nombreCargo?.touched">
+          <small class="error-text" *ngIf="nombreCargo?.invalid && nombreCargo?.touched">
+            <span *ngIf="nombreCargo?.errors?.['required']">El nombre es obligatorio</span>
+            <span *ngIf="nombreCargo?.errors?.['minlength']">Mínimo 2 caracteres</span>
+            <span *ngIf="nombreCargo?.errors?.['maxlength']">Máximo 100 caracteres</span>
+          </small>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="descripcion"
+            placeholder="Descripción del cargo"
+            [class.error]="descripcion?.invalid && descripcion?.touched">
+          <small class="error-text" *ngIf="descripcion?.errors?.['maxlength'] && descripcion?.touched">
+            Máximo 200 caracteres
+          </small>
+        </div>
+
+        <!-- Sueldo -->
+        <div class="form-group">
+          <input 
+            type="number" 
+            formControlName="sueldo"
+            placeholder="Sueldo*"
+            step="0.01"
+            min="0"
+            [class.error]="sueldo?.invalid && sueldo?.touched">
+          <small class="error-text" *ngIf="sueldo?.invalid && sueldo?.touched">
+            <span *ngIf="sueldo?.errors?.['required']">El sueldo es obligatorio</span>
+            <span *ngIf="sueldo?.errors?.['min']">El sueldo debe ser mayor a 0</span>
+          </small>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+          <button 
+            type="submit" 
+            class="btn-primary"
+            [disabled]="saving">
+            <i class="fa-solid" [ngClass]="isEditing ? 'fa-save' : 'fa-plus'"></i>
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Registrar') }}
+          </button>
+          
+          <button 
+            type="button" 
+            class="btn-secondary"
+            *ngIf="isEditing"
+            (click)="cancelEdit()">
+            <i class="fa-solid fa-times"></i>
+            Cancelar
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ========== TABLA (Derecha) ========== -->
+    <div class="table-section">
+      
+      <!-- Loading -->
+      <div class="loading-container" *ngIf="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <span>Cargando...</span>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-scroll" *ngIf="!loading">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>NOMBRE</th>
+              <th>DESCRIPCIÓN</th>
+              <th>SUELDO</th>
+              <th>ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cargo of cargos; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ cargo.nombreCargo }}</td>
+              <td>{{ cargo.descripcion || '-' }}</td>
+              <td>S/ {{ cargo.sueldo | number:'1.2-2' }}</td>
+              <td class="actions">
+                <button 
+                  class="btn-icon edit" 
+                  (click)="editCargo(cargo)"
+                  title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button 
+                  class="btn-icon delete" 
+                  (click)="deleteCargo(cargo)"
+                  title="Eliminar">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Sin datos -->
+            <tr *ngIf="cargos.length === 0">
+              <td colspan="5" class="no-data">
+                No hay cargos registrados
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

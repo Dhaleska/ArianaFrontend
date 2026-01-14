@@ -1,5 +1,6 @@
+
 .page-container {
-  padding: 0px 20px 20px 20px; 
+  padding: 0px 20px 20px 20px;
 }
 
 .page-title {
@@ -15,19 +16,19 @@
 .content-layout {
   display: flex;
   gap: 40px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 // ========== FORMULARIO (Izquierda) ==========
 .form-section {
-  width: 320px;
+  width: 350px;
   flex-shrink: 0;
 
   form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
   }
 }
 
@@ -35,14 +36,15 @@
   display: flex;
   flex-direction: column;
 
-  input, select {
-    padding: 12px 15px;
+  input, select, textarea {
+    padding: 10px 12px;
     font-size: 14px;
     border: 1px solid #d1d5db;
     border-radius: 4px;
     outline: none;
     transition: border-color 0.2s;
     background: #fff;
+    font-family: inherit;
 
     &::placeholder {
       color: #9ca3af;
@@ -56,12 +58,34 @@
       border-color: #ef4444;
     }
   }
+
+  select {
+    color: #9ca3af;
+    cursor: pointer;
+
+    &:valid {
+      color: #111827;
+    }
+
+    option {
+      color: #111827;
+    }
+
+    option:first-child {
+      color: #9ca3af;
+    }
+  }
+
+  textarea {
+    resize: none;
+    min-height: 70px;
+  }
 }
 
 .error-text {
   color: #ef4444;
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 11px;
+  margin-top: 3px;
 }
 
 .form-buttons {
@@ -134,7 +158,7 @@
 }
 
 .table-scroll {
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: auto;
   overflow-x: auto;
   border: 1px solid #e5e7eb;
@@ -144,7 +168,7 @@
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 500px;
+  min-width: 700px;
 
   thead {
     position: sticky;
@@ -152,10 +176,10 @@
     z-index: 1;
 
     th {
-      background: #d9d9d9;  // Gris como en la imagen
+      background: #d9d9d9;
       color: #111827;
       padding: 12px 10px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       text-align: center;
@@ -184,9 +208,9 @@
     }
 
     td {
-      padding: 12px 10px;
+      padding: 10px 8px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
       color: #374151;
     }
   }
@@ -195,12 +219,12 @@
 .actions {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .btn-icon {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -210,7 +234,7 @@
   transition: transform 0.2s, background 0.2s;
 
   i {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   &:hover {
@@ -244,7 +268,7 @@
 }
 
 // ========== RESPONSIVE ==========
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .content-layout {
     flex-direction: column;
   }

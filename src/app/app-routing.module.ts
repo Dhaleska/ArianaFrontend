@@ -9,14 +9,14 @@ import { DashboardHomeComponent } from './modules/dashboard-home/dashboard-home.
 import { ResourcesHomeComponent } from './modules/resources-home/resources-home.component';
 
 const routes: Routes = [
-  { 
-    path: '', 
-    redirectTo: '/login', 
-    pathMatch: 'full' 
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
   },
-  { 
-    path: 'login', 
-    component: LoginComponent 
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'home',
@@ -49,7 +49,19 @@ const routes: Routes = [
         loadChildren: () => import('./modules/reportes/reportes.module').then(m => m.ReportesModule),
         canActivate: [PermissionGuard],
         data: { recurso: 'reportes', accion: 'read' }
-      }
+      },
+      {
+        path: 'clientes',
+        loadChildren: () => import('./modules/clientes/clientes.module').then(m => m.ClientesModule),
+        canActivate: [PermissionGuard],
+        data: { recurso: 'clientes', accion: 'read' }
+      },
+      {
+        path: 'personal',
+        loadChildren: () => import('./modules/personal/personal.module').then(m => m.PersonalModule),
+        canActivate: [PermissionGuard],
+        data: { recurso: 'personal', accion: 'read' }
+      }      
     ]
   },
   {

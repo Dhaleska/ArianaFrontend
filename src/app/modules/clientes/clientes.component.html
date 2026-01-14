@@ -1,0 +1,212 @@
+<!-- src/app/modules/clientes/clientes.component.html -->
+<div class="page-container">
+
+  <!-- Título -->
+  <h2 class="page-title">REGISTRO DE CLIENTES</h2>
+
+  <!-- Contenido principal: Formulario + Tabla -->
+  <div class="content-layout">
+
+    <!-- ========== FORMULARIO (Izquierda) ========== -->
+    <div class="form-section">
+      <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+
+        <!-- Tipo de documento -->
+        <div class="form-group">
+          <select 
+            formControlName="tipoDocumento"
+            [class.error]="tipoDocumento?.invalid && tipoDocumento?.touched">
+            <option value="">Tipo de documento*</option>
+            <option *ngFor="let tipo of tiposDocumento" [value]="tipo.value">
+              {{ tipo.label }}
+            </option>
+          </select>
+          <small class="error-text" *ngIf="tipoDocumento?.invalid && tipoDocumento?.touched">
+            Seleccione un tipo de documento
+          </small>
+        </div>
+
+        <!-- Número de documento -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="numeroDocumento"
+            placeholder="N° Documento*"
+            [class.error]="numeroDocumento?.invalid && numeroDocumento?.touched">
+          <small class="error-text" *ngIf="numeroDocumento?.invalid && numeroDocumento?.touched">
+            <span *ngIf="numeroDocumento?.errors?.['required']">El número es obligatorio</span>
+            <span *ngIf="numeroDocumento?.errors?.['minlength']">Mínimo 8 caracteres</span>
+          </small>
+        </div>
+
+        <!-- Razón Social -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="razonSocial"
+            placeholder="Razón Social*"
+            [class.error]="razonSocial?.invalid && razonSocial?.touched">
+          <small class="error-text" *ngIf="razonSocial?.invalid && razonSocial?.touched">
+            <span *ngIf="razonSocial?.errors?.['required']">La razón social es obligatoria</span>
+            <span *ngIf="razonSocial?.errors?.['minlength']">Mínimo 2 caracteres</span>
+          </small>
+        </div>
+
+        <!-- Nombre Comercial -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="nombreComercial"
+            placeholder="Nombre Comercial">
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="telefono"
+            placeholder="Teléfono">
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input 
+            type="email" 
+            formControlName="email"
+            placeholder="Email"
+            [class.error]="email?.invalid && email?.touched">
+          <small class="error-text" *ngIf="email?.errors?.['email'] && email?.touched">
+            Email no válido
+          </small>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="direccion"
+            placeholder="Dirección">
+        </div>
+
+        <!-- Contacto Nombre -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="contactoNombre"
+            placeholder="Nombre de contacto">
+        </div>
+
+        <!-- Contacto Teléfono -->
+        <div class="form-group">
+          <input 
+            type="text" 
+            formControlName="contactoTelefono"
+            placeholder="Teléfono de contacto">
+        </div>
+
+        <!-- Contacto Email -->
+        <div class="form-group">
+          <input 
+            type="email" 
+            formControlName="contactoEmail"
+            placeholder="Email de contacto"
+            [class.error]="contactoEmail?.invalid && contactoEmail?.touched">
+          <small class="error-text" *ngIf="contactoEmail?.errors?.['email'] && contactoEmail?.touched">
+            Email no válido
+          </small>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="form-group">
+          <textarea 
+            formControlName="observaciones"
+            placeholder="Observaciones"
+            rows="3">
+          </textarea>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+          <button 
+            type="submit" 
+            class="btn-primary"
+            [disabled]="saving">
+            <i class="fa-solid" [ngClass]="isEditing ? 'fa-save' : 'fa-plus'"></i>
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Registrar') }}
+          </button>
+          
+          <button 
+            type="button" 
+            class="btn-secondary"
+            *ngIf="isEditing"
+            (click)="cancelEdit()">
+            <i class="fa-solid fa-times"></i>
+            Cancelar
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ========== TABLA (Derecha) ========== -->
+    <div class="table-section">
+      
+      <!-- Loading -->
+      <div class="loading-container" *ngIf="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <span>Cargando...</span>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-scroll" *ngIf="!loading">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>TIPO DOC.</th>
+              <th>N° DOCUMENTO</th>
+              <th>RAZÓN SOCIAL</th>
+              <th>TELÉFONO</th>
+              <th>EMAIL</th>
+              <th>ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ cliente.tipoDocumento }}</td>
+              <td>{{ cliente.numeroDocumento }}</td>
+              <td>{{ cliente.razonSocial }}</td>
+              <td>{{ cliente.telefono || '-' }}</td>
+              <td>{{ cliente.email || '-' }}</td>
+              <td class="actions">
+                <button 
+                  class="btn-icon edit" 
+                  (click)="editCliente(cliente)"
+                  title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button 
+                  class="btn-icon delete" 
+                  (click)="deleteCliente(cliente)"
+                  title="Eliminar">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Sin datos -->
+            <tr *ngIf="clientes.length === 0">
+              <td colspan="7" class="no-data">
+                No hay clientes registrados
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
